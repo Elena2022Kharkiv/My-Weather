@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My weather</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <h2 class="header__logo">MY WEATHER</h2>
+            <form class="header__search">
+                <input type="text" id="search" value="Poltava, Ukraine">
+                <!-- <input type="text" placeholder="Choose a city"> -->
+                <img src="images/search.png" alt="">
+            </form>
+        </div>
+        <ul class="tabs-menu">
+            <li class="tab-today active">Today</li>
+            <li class="tab-forecast">5-day forecast</li>
+        </ul>   
+    </header>
+    <main>
+        <div class="informer">  
+            <div class="informer__today">
+                <div class="curWeather">
+                    <h4>CURRENT WEATHER</h4>
+                    <span class="curWeather__date">30.06.2018</span>
+                    <div class="curWeather__content">
+                        <div class="curWeather__main">
+                            <img class="curWeather__img" src="./images/sun.png" alt="sunny">
+                            <p class="curWeather__text">Sunny</p>
+                        </div>
+                        <div class="curWeather__temperature">
+                            <span class="curWeather__curTemp">29 °C</span>
+                            <p class="curWeather__realFeel">Real Feel 30°</p>
+                        </div>
+                        <div class="curWeather__sunInfo">
+                            <p>Sunrise: 7:04 AM</p>
+                            <p>Sunset: 5:11 PM</p>
+                            <p>Duration: 10:07 hr</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hourlyWeather">
+                    <h4>HOURLY</h4>
+                    <div class="hourlyWeather__content">
+                        <p>TODAY</p>
+                        <p>7 pm</p>
+                        <p></p> 
+                        <img src="./images/sun.png" alt="sunny">
+                        <p>Forecast</p>
+                        <p>Sunny</p>
+                        <p>Temp (°C)</p>
+                        <p>11°</p>
+                        <p>Real Feel</p>
+                        <p>10°</p>
+                        <p>Wind(km/h)</p>
+                        <p>5 ESE</p>
+                    </div>
+                </div>
+                <div class="nearby">
+                    <h4>NEARBY PLACES</h4>
+                    <div class="nearlyPlaces">
+                        <div class="nearlyPlaces__place">
+                            <p class="nearlyPlcses__name">Kharkiv</p>
+                            <img class="nearlyPlaces__img" src="./images/sun.png" alt="">
+                            <p class="nearlyPlaces__temp">36 °C</p>
+                        </div>
+                        <div class="nearlyPlaces__place">
+                            <p class="nearlyPlaces__name">Kremenchuk</p>
+                            <img class="nearlyPlaces__img" src="./images/sun.png" alt="">
+                            <p class="nearlyPlaces__temp">36 °C</p>
+                        </div>
+                        <div class="nearlyPlaces__place">
+                            <p class="nearlyPlaces__name">Mirhorod</p>
+                            <img class="nearlyPlaces__img" src="./images/sun.png" alt="">
+                            <p class="nearlyPlaces__temp">36 °C</p>
+
+                        </div>
+                        <div class="nearlyPlaces__place">
+                            <p class="nearlyPlaces__name">Krasnohrad</p>
+                            <img class="nearlyPlaces__img" src="./images/sun.png" alt="">
+                            <p class="nearlyPlaces__temp">36 °C</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="informer__forecast">
+                <!-- Прогноз на 5 дней -->
+            <div class="weatherForecast">
+                    <div class="weatherForecast__block activeBlock">
+                        <h4 class="weatherForecast__day">SUN</h4>
+                        <p class="weatheForecast__date">JUL 01</p>
+                        <img class="weatheForecast__img" src="./images/sun.png" alt="sunny">
+                        <span class="weatheForecast__temp">29 °C</span>
+                        <p class="curWeather__text">Sunny, Warm</p>
+                    </div>
+                    <div class="weatherForecast__block">
+                        <h4 class="weatherForecast__day">MON</h4>
+                        <p class="weatheForecast__date">JUL 02</p>
+                        <img class="weatheForecast__img" src="./images/sun.png" alt="sunny">
+                        <span class="weatheForecast__temp">29 °C</span>
+                        <p class="curWeather__text">Sunny, Warm</p>
+                    </div>
+                    <div class="weatherForecast__block">
+                        <h4 class="weatherForecast__day">TUE</h4>
+                        <p class="weatheForecast__date">JUL 03</p>
+                        <img class="weatheForecast__img" src="./images/sun.png" alt="sunny">
+                        <span class="weatheForecast__temp">29 °C</span>
+                        <p class="curWeather__text">Sunny, Warm</p>
+                    </div>
+                    <div class="weatherForecast__block">
+                        <h4 class="weatherForecast__day">WED</h4>
+                        <p class="weatheForecast__date">JUL 04</p>
+                        <img class="weatheForecast__img" src="./images/sun.png" alt="sunny">
+                        <span class="weatheForecast__temp">29 °C</span>
+                        <p class="curWeather__text">Sunny, Warm</p>
+                    </div>
+                    <div class="weatherForecast__block">
+                        <h4 class="weatherForecast__day">SUN</h4>
+                        <p class="weatheForecast__date">JUL 05</p>
+                        <img class="weatheForecast__img" src="./images/sun.png" alt="sunny">
+                        <span class="weatheForecast__temp">29 °C</span>
+                        <p class="curWeather__text">Sunny, Warm</p>
+                    </div>
+                </div> 
+                <div class="hourlyForecast">
+                    <h4>HOURLY</h4>
+                </div>
+            </div>
+            <!-- <div class="error">
+                <img src="images/img_error.jpg" alt="">
+                <p>(Qwerty...) could not be found.</p>
+                <p>Please enter a different location.</p>
+            </div> -->
+        </div>
+    </main>
+        
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    line-height: 1.5em;    
+    // background-color: #eee;
+    // background-color: #f5f1f1fb;
+    background-color: $bgColor;
+    // background-color: #f1ecec;
+    // background-color: #e1dfdf;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}

@@ -1,0 +1,13 @@
+// @mixin flex {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+// @include flex;  - подключениe
+
+@mixin flex($jc: center, $ai: center) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+}
+// @include flex(center, center);  - подключениe
