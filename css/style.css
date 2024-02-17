@@ -39,7 +39,7 @@ li {
   border: 2px solid #979797;
   border-radius: 5px;
 }
-.header__search img {
+.header__img {
   height: 20px;
   position: absolute;
   top: 5px;
@@ -106,13 +106,6 @@ h4 {
   color: #039aa4;
   font-weight: bold;
 }
-.curWeather__main {
-  font-size: 18px;
-  text-align: center;
-}
-.curWeather__img {
-  height: 60px;
-}
 .curWeather__content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -124,11 +117,18 @@ h4 {
       -ms-flex-align: center;
           align-items: center;
 }
-.curWeather__curTemp {
+.curWeather__description {
+  font-size: 18px;
+  text-align: center;
+}
+.curWeather__img {
+  height: 60px;
+}
+.curWeather__temperature {
   font-size: 40px;
   line-height: 1.3em;
 }
-.curWeather__realFeel {
+.curWeather__tempFeel {
   font-size: 14px;
   text-align: center;
   margin-top: 5px;
@@ -140,14 +140,20 @@ h4 {
 .hourlyWeather__content,
 .hourlyForecast__content {
   display: grid;
-  grid-template-columns: 2fr repeat(6, 1fr);
+  grid-template-columns: minmax(115px, 2fr) repeat(8, minmax(70px, 1fr));
   grid-template-rows: 1fr auto 1fr 1fr 1fr;
-  gap: 10px;
 }
-.hourlyWeather__content img,
-.hourlyForecast__content img {
+.hourlyWeather__img,
+.hourlyForecast__img {
   width: 50px;
-  margin: 10px;
+  margin-bottom: 20px;
+}
+.hourlyWeather__temp, .hourlyWeather__tempFeel, .hourlyWeather__wind,
+.hourlyForecast__temp,
+.hourlyForecast__tempFeel,
+.hourlyForecast__wind {
+  border-top: 1px solid #cecbcb;
+  padding: 10px 0;
 }
 
 .nearlyPlaces {
@@ -162,7 +168,7 @@ h4 {
   padding: 10px 20px;
   background-color: #dfdddd;
 }
-.nearlyPlaces img {
+.nearlyPlaces__img {
   width: 30px;
   height: 30px;
 }
@@ -194,9 +200,9 @@ h4 {
   color: #616161;
   text-align: center;
   line-height: 1.5em;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   background: white;
 }
-.error img {
-  height: 350px;
+.error__img {
+  height: 300px;
 }

@@ -55,14 +55,12 @@ class Informer {
                console.log(this.#data); 
                this.getWeatherData();
                console.log(this.#weatherData); 
-               // this.renderInformer();
-              
+               this.renderInformer();
             }
          })
          .catch(() => this.renderErrorBlock()); 
    }
 
-   // getDate() {
    get currentDate() {
       let date = new Date();
       let day = date.getDate().toString().padStart(2, '0');
@@ -106,7 +104,7 @@ class Informer {
          // this.#weatherData[index] = obj;
          this.#weatherData[index] = obj;
       })
-      console.log(this.#weatherData);
+      // console.log(this.#weatherData);
    }
 
    getWeatherImg(weather, clouds) {
@@ -125,7 +123,7 @@ class Informer {
    }
 
    getWindDirection(deg) {
-      if (deg < 25 && deg > 335) return 'N'; // NORTH (N)
+      if (deg < 25 || deg > 335) return 'N'; // NORTH (N)
       if (deg > 25 && deg < 65) return 'NE'; // северо-восток (NE)
       if (deg > 65 && deg < 115) return 'E'; // EAST (E)
       if (deg > 115 && deg < 155) return 'SE'; // юго-восток (SE)
@@ -134,8 +132,80 @@ class Informer {
       if (deg > 245 && deg < 295) return 'W'; // WEST (W)
       if (deg > 295 && deg < 335) return 'NW'; // северо-запад (NW)
    }
+   get sunrise() {
+      // let timestamp = this.#dataPoltava.sys.sunrise * 1000;
+      let timestamp = this.#data.city.sunrise * 1000;
+      // console.log(timestamp);
+      let date = new Date(timestamp);
+      // console.log(date);
+      let hours = date.getHours();
+      let minutes = date.getMinutes().toString().padStart(2, '0'); 
+      let sunrise = `${hours}:${minutes}`;
+      return sunrise;
+   }
 
-   renderInformer() {} 
+   get sunset() {
+      // let timestamp = this.#dataPoltava.sys.sunset * 1000;
+      let timestamp = this.#data.city.sunset * 1000;
+      // console.log(timestamp);
+      let date = new Date(timestamp);
+      let hours = date.getHours();
+      let minutes = date.getMinutes().toString().padStart(2, '0'); 
+      let sunset = `${hours}:${minutes}`;
+      return sunset;
+   }
+
+   get duration() {
+      // let seconds = this.#dataPoltava.sys.sunset - this.#dataPoltava.sys.sunrise;
+      let seconds = this.#data.city.sunset - this.#data.city.sunrise;
+      // console.log(seconds);
+      // console.log(seconds / 60); // всего минут
+      let hours = Math.trunc(seconds / 60 / 60); 
+      // console.log(hours);
+      let minutes = Math.round(seconds / 60 - hours * 60);
+      // console.log(minutes);
+      let duration = `${hours}:${minutes}`
+      return duration;
+   }
+
+   renderInformer() {
+      this.renderCurWeatherBlock();
+      // this.renderHourlyBlock();
+      // this.renderNearbyPlacesBlock();
+      // this.getNearbyPlacesWeather();
+
+   } 
+
+   renderCurWeatherBlock() {
+      let weather = this.#weatherData[0];
+      // console.log(weather);
+      let curWeather = weather.descr;
+      let curClouds =  this.#data.list[0].clouds.all;
+      // console.log(curWeather);
+      // console.log(curClouds);
+
+      let html = `<div class="curWeather">
+                     <h4 class="curWeather__title">CURRENT WEATHER</h4>
+                     <span class="curWeather__date">${this.currentDate}</span>
+                     <div class="curWeather__content">
+                        <div class="curWeather__main">
+                           <img class="curWeather__img" ${this.getWeatherImg(curWeather, curClouds)}>
+                           <p class="curWeather__description">${weather.descr}</p>
+                        </div>
+                        <div class="curWeather__tempBlock">
+                           <span class="curWeather__temperature">${weather.temp}°C</span>
+                           <p class="curWeather__tempFeel">Real Feel ${weather.tempFeel}°</p>
+                        </div>
+                        <div class="curWeather__sunInfo">
+                           <p class="curWeather__sunrise">Sunrise: ${this.sunrise} AM</p>
+                           <p class="curWeather__sunset">Sunset: ${this.sunset} PM</p>
+                           <p class="curWeather__duration">Duration: ${this.duration} hr</p>
+                        </div>
+                     </div>
+               </div>`;
+      this.informerToday.insertAdjacentHTML('afterbegin', html);
+   }
+
 
    getWeatherForecast() {}
 
@@ -143,22 +213,21 @@ class Informer {
       let value = this.search.value;
       console.log(value);
       this. informer.innerHTML = `<div class="error">
-                                       <img src="images/img_error.jpg" alt="">
-                                       <p>${value} could not be found.</p>
-                                       <p>Please enter a different location.</p>
+                                       <img class="error__img" src="images/img_error.jpg" alt="">
+                                       <p class="error__text">${value} could not be found.</p>
+                                       <p class="error__text">Please enter a different location.</p>
                                    </div>`;
    }
 
    init() {
-      this.getWeather(); 
-      this.tabsMenu.addEventListener('click', this.getWeatherForecast.bind(this));
+      this.getWeather();     
+      // this.tabsMenu.addEventListener('click', this.getWeatherForecast.bind(this));
    }
- }
-
+}
 
 // const info = new Informer();
 // info.init();
-new Informer('.informer').init();
+new Informer('.informer').init();  
 
 //--------------------------------------------------
 // Определение геолокации
