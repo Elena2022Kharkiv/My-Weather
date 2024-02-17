@@ -170,7 +170,7 @@ class Informer {
 
    renderInformer() {
       this.renderCurWeatherBlock();
-      // this.renderHourlyBlock();
+      this.renderHourlyBlock();
       // this.renderNearbyPlacesBlock();
       // this.getNearbyPlacesWeather();
 
@@ -206,6 +206,46 @@ class Informer {
       this.informerToday.insertAdjacentHTML('afterbegin', html);
    }
 
+   renderHourlyBlock() {
+      console.log(this.#weatherData);
+      let timeForecast = '';
+      let image = '';
+      let description = '';
+      let temp = '';
+      let tempFeel = '';
+      let wind = ''; 
+
+      // let date = this.#weatherData[0].date;
+      // console.log(date);
+
+      this.#weatherData.forEach((elem, index) => {
+         if (index < 8) {
+            timeForecast += `<p class="hourlyWeather__time">${elem.time}</p>`;
+            image += `<img class="hourlyWeather__img" ${elem.image}>`;
+            description += `<p class="hourlyWeather__description">${elem.descr}</p>`;
+            temp += `<p class="hourlyWeather__temp">${elem.temp}°</p>`;
+            tempFeel += `<p class="hourlyWeather__temp">${elem.tempFeel}°</p>`;
+            wind += `<p class="hourlyWeather__windDeg">${elem.wind} ${elem.windDeg}</p>`;
+         }
+      })
+      // console.log(timeForecast);
+      // for(let i = 0; i < 6; i++) {
+      //    tempFeel += '<p>' +  Math.round(this.#data.list[i].main.feels_like) + '°</p>';
+      // }
+
+      let html = `<div class="hourlyWeather">
+                     <h4 class="hourlyWeather__title">HOURLY</h4>
+                     <div class="hourlyWeather__content">
+                        <p class="hourlyWeather__day">TODAY</p>${timeForecast}                       
+                        <p></p> ${image}
+                        <p class="hourlyWeather__forecast">Forecast</p>${description}
+                        <p class="hourlyWeather__temperature">Temp (°C)</p>${temp}
+                        <p class="hourlyWeather__tempFeel">Real Feel</p>${tempFeel}
+                        <p class="hourlyWeather__wind">Wind(km/h)</p>${wind}
+                     </div>
+                  </div>`;
+      this.informerToday.insertAdjacentHTML('beforeend', html); 
+   }
 
    getWeatherForecast() {}
 
