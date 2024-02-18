@@ -21,13 +21,10 @@ class Informer {
       // По умолчанию используется температура в градусах Кельвина и скорость ветра в метрах/сек
       
       this.informer = document.querySelector(container);
-      this.informerToday = this.informer.querySelector('.informer__today');
-      this.informerForecast = this.informer.querySelector('.informer__forecast');
-      this.search = document.querySelector('.header__search input');
       this.search = document.getElementById('search');
       this.tabsMenu = document.querySelector('.tabs-menu');
-      this.tabToday = this.tabsMenu.querySelector('.tab-today');
-      this.tabForecast = this.tabsMenu.querySelector('.tab-forecast');
+      this.tabToday = this.tabsMenu.querySelector('.tab-menu__today');
+      this.tabForecast = this.tabsMenu.querySelector('.tab-menu__forecast');
    }
 
    getApi(city) {
@@ -55,10 +52,11 @@ class Informer {
                console.log(this.#data); 
                this.getWeatherData();
                console.log(this.#weatherData); 
-               this.renderInformer();
+               this.renderWeatherInformer();
             }
          })
          .catch(() => this.renderErrorBlock()); 
+         // написать разный текст ошибок
    }
 
    get currentDate() {
@@ -168,9 +166,18 @@ class Informer {
       return duration;
    }
 
-   renderInformer() {
+   get informerToday() {
+      return this.informer.querySelector('.informer__today');
+   }
+
+   get informerForecast() {
+      return this.informer.querySelector('.informer__forecast');
+   }
+
+   renderWeatherInformer() {
+      this.informer.innerHTML = '';
       this.renderCurWeatherBlock();
-      this.renderHourlyBlock();
+      this.renderHourlyBlock(this.#weatherData, this.informerToday, 'TODAY');
       // this.renderNearbyPlacesBlock();
       // this.getNearbyPlacesWeather();
 
@@ -179,35 +186,33 @@ class Informer {
    renderCurWeatherBlock() {
       let weather = this.#weatherData[0];
       // console.log(weather);
-      let curWeather = weather.descr;
-      let curClouds =  this.#data.list[0].clouds.all;
-      // console.log(curWeather);
-      // console.log(curClouds);
-
-      let html = `<div class="curWeather">
-                     <h4 class="curWeather__title">CURRENT WEATHER</h4>
-                     <span class="curWeather__date">${this.currentDate}</span>
-                     <div class="curWeather__content">
-                        <div class="curWeather__main">
-                           <img class="curWeather__img" ${this.getWeatherImg(curWeather, curClouds)}>
-                           <p class="curWeather__description">${weather.descr}</p>
-                        </div>
-                        <div class="curWeather__tempBlock">
-                           <span class="curWeather__temperature">${weather.temp}°C</span>
-                           <p class="curWeather__tempFeel">Real Feel ${weather.tempFeel}°</p>
-                        </div>
-                        <div class="curWeather__sunInfo">
-                           <p class="curWeather__sunrise">Sunrise: ${this.sunrise} AM</p>
-                           <p class="curWeather__sunset">Sunset: ${this.sunset} PM</p>
-                           <p class="curWeather__duration">Duration: ${this.duration} hr</p>
+      let html = `<div class="informer__today">
+                     <div class="curWeather">
+                        <h4 class="curWeather__title">CURRENT WEATHER</h4>
+                        <span class="curWeather__date">${this.currentDate}</span>
+                        <div class="curWeather__content">
+                           <div class="curWeather__main">
+                              <img class="curWeather__img" ${weather.image}>
+                              <p class="curWeather__description">${weather.descr}</p>
+                           </div>
+                           <div class="curWeather__tempBlock">
+                              <span class="curWeather__temperature">${weather.temp}°C</span>
+                              <p class="curWeather__tempFeel">Real Feel ${weather.tempFeel}°</p>
+                           </div>
+                           <div class="curWeather__sunInfo">
+                              <p class="curWeather__sunrise">Sunrise: ${this.sunrise} AM</p>
+                              <p class="curWeather__sunset">Sunset: ${this.sunset} PM</p>
+                              <p class="curWeather__duration">Duration: ${this.duration} hr</p>
+                           </div>
                         </div>
                      </div>
-               </div>`;
-      this.informerToday.insertAdjacentHTML('afterbegin', html);
+                  </div>
+                  <div class="informer__forecast"></div>`;
+      this.informer.insertAdjacentHTML('afterbegin', html);
    }
 
-   renderHourlyBlock() {
-      console.log(this.#weatherData);
+   renderHourlyBlock(array, container, day) {
+      // console.log(this.#weatherData);
       let timeForecast = '';
       let image = '';
       let description = '';
@@ -215,10 +220,8 @@ class Informer {
       let tempFeel = '';
       let wind = ''; 
 
-      // let date = this.#weatherData[0].date;
-      // console.log(date);
-
-      this.#weatherData.forEach((elem, index) => {
+      // this.#weatherData.forEach((elem, index) => {
+      array.forEach((elem, index) => {
          if (index < 8) {
             timeForecast += `<p class="hourlyWeather__time">${elem.time}</p>`;
             image += `<img class="hourlyWeather__img" ${elem.image}>`;
@@ -228,15 +231,11 @@ class Informer {
             wind += `<p class="hourlyWeather__windDeg">${elem.wind} ${elem.windDeg}</p>`;
          }
       })
-      // console.log(timeForecast);
-      // for(let i = 0; i < 6; i++) {
-      //    tempFeel += '<p>' +  Math.round(this.#data.list[i].main.feels_like) + '°</p>';
-      // }
-
+      
       let html = `<div class="hourlyWeather">
                      <h4 class="hourlyWeather__title">HOURLY</h4>
                      <div class="hourlyWeather__content">
-                        <p class="hourlyWeather__day">TODAY</p>${timeForecast}                       
+                        <p class="hourlyWeather__day">${day}</p>${timeForecast}                       
                         <p></p> ${image}
                         <p class="hourlyWeather__forecast">Forecast</p>${description}
                         <p class="hourlyWeather__temperature">Temp (°C)</p>${temp}
@@ -244,10 +243,83 @@ class Informer {
                         <p class="hourlyWeather__wind">Wind(km/h)</p>${wind}
                      </div>
                   </div>`;
-      this.informerToday.insertAdjacentHTML('beforeend', html); 
+      // this.informerToday.insertAdjacentHTML('beforeend', html); 
+      container.insertAdjacentHTML('beforeend', html); 
    }
 
-   getWeatherForecast() {}
+   getWeatherForecast(event) {
+      if (event.target.matches('.tab-menu__today')) {
+         this.tabForecast.classList.remove('active');
+         this.tabToday.classList.add('active');        
+         // this.getWeather(); 
+         this.renderWeatherInformer();
+      } 
+      if (event.target.matches('.tab-menu__forecast')) {
+         this.tabForecast.classList.add('active');
+         this.tabToday.classList.remove('active');
+         this.renderInformerForecast();
+      }
+   }
+
+   renderInformerForecast() {
+      this.renderWeatherForecast();
+      this.renderForecastHourly();     
+   }
+
+   renderWeatherForecast() {
+      this.informerToday.innerHTML = '';
+      this.informerForecast.innerHTML = '<div class="weatherForecast"></div>';
+      let weatherForecast = this.informer.querySelector('.weatherForecast');
+
+      let date = new Date();
+      let curDay = date.getDate();
+      console.log(curDay + 1); // 19
+
+      for(let i = 1; i < 6; i++) {
+         let newArr = this.#weatherData.filter(elem => elem.date == (curDay + i));
+         // console.log(newArr);
+         let html = `<div class="weatherForecast__block" id="${curDay + i}">
+                  <h4 class="weatherForecast__day">${newArr[0].dayShort}</h4>
+                  <p class="weatheForecast__date">${newArr[0].month} ${curDay + i}</p>
+                  <img class="weatheForecast__img" ${newArr[0].image}>
+                  <span class="weatheForecast__temp">${newArr[0].temp} °C</span>
+                  <p class="curWeather__text">${newArr[0].descr}</p>
+               </div>`;
+         weatherForecast.insertAdjacentHTML('beforeend', html);
+      }
+      document.getElementById(curDay + 1).classList.add('activeBlock');
+
+      weatherForecast.addEventListener('click', this.getForecastHourly.bind(this));
+   }
+   
+   getForecastHourly(event) {
+      let targetBlock = event.target.closest('.weatherForecast__block');
+      // console.log(targetBlock);
+      console.log(targetBlock.id); // день 
+      let newArr = this.#weatherData.filter(elem => elem.date == (targetBlock.id));
+      console.log(newArr);
+
+      let weatherForecast = this.informer.querySelector('.weatherForecast');
+      let forecastBlocks = weatherForecast.querySelectorAll('.weatherForecast__block');
+      forecastBlocks.forEach(elem => {
+         elem.classList.remove('activeBlock');
+      })
+      targetBlock.classList.add('activeBlock');
+
+      let wraper = this.informerForecast.querySelector('.hourlyWeather');
+      wraper.remove();
+      
+      this.renderHourlyBlock(newArr, this.informerForecast, newArr[0].day);
+   }
+
+   renderForecastHourly() {
+      let date = new Date();
+      let curDay = date.getDate();
+      console.log(curDay); // 18
+      let newArr = this.#weatherData.filter(elem => elem.date == (curDay + 1));
+      console.log(newArr);
+      this.renderHourlyBlock(newArr, this.informerForecast, newArr[0].day);
+   }
 
    renderErrorBlock() {
       let value = this.search.value;
@@ -261,7 +333,9 @@ class Informer {
 
    init() {
       this.getWeather();     
-      // this.tabsMenu.addEventListener('click', this.getWeatherForecast.bind(this));
+      // api по умолчанию this.apiPoltava и запрос геолокации !!!
+      this.tabsMenu.addEventListener('click', this.getWeatherForecast.bind(this));
+      // this.informer.addEventListener('click', this.getForecastHourly.bind(this));
    }
 }
 
