@@ -30,20 +30,32 @@ li {
   color: #039aa4;
 }
 .header__search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   margin-left: auto;
   position: relative;
 }
-.header__search input[type=text] {
+.header__search input {
   width: 300px;
   padding: 5px;
   border: 2px solid #979797;
-  border-radius: 5px;
+  font-size: 16px;
+  padding-right: 40px;
+  outline: none;
 }
-.header__img {
+.header__search input:hover {
+  cursor: pointer;
+  border-color: #039aa4;
+}
+.header__search input:focus {
+  border-color: #039aa4;
+}
+.header__search-img {
   height: 20px;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 7px;
+  right: 3px;
 }
 
 main {
@@ -51,23 +63,23 @@ main {
   padding: 1px;
 }
 
-.tabs-menu {
+.tab-menu {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   background: rgb(62, 62, 62);
 }
-.tabs-menu li {
+.tab-menu li {
   border-left: 1px solid #979797;
   padding: 10px 20px;
   text-align: center;
   color: white;
   cursor: pointer;
 }
-.tabs-menu li:first-child {
+.tab-menu li:first-child {
   margin-left: 20px;
 }
-.tabs-menu li:hover {
+.tab-menu li:hover {
   color: #039aa4;
 }
 
@@ -90,9 +102,8 @@ h4 {
 
 .curWeather,
 .hourlyWeather,
-.hourlyForecast,
 .nearby {
-  background-color: rgba(245, 241, 241, 0.9843137255);
+  background: rgba(249, 247, 247, 0.9843137255);
   padding: 20px;
 }
 
@@ -137,21 +148,16 @@ h4 {
   line-height: 2em;
 }
 
-.hourlyWeather__content,
-.hourlyForecast__content {
+.hourlyWeather__content {
   display: grid;
   grid-template-columns: minmax(115px, 2fr) repeat(8, minmax(70px, 1fr));
   grid-template-rows: 1fr auto 1fr 1fr 1fr;
 }
-.hourlyWeather__img,
-.hourlyForecast__img {
-  width: 50px;
+.hourlyWeather__img {
+  height: 50px;
   margin-bottom: 20px;
 }
-.hourlyWeather__temp, .hourlyWeather__tempFeel, .hourlyWeather__wind,
-.hourlyForecast__temp,
-.hourlyForecast__tempFeel,
-.hourlyForecast__wind {
+.hourlyWeather__temp, .hourlyWeather__tempFeel, .hourlyWeather__wind {
   border-top: 1px solid #cecbcb;
   padding: 10px 0;
 }
@@ -166,10 +172,9 @@ h4 {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   padding: 10px 20px;
-  background-color: #dfdddd;
+  background-color: #ecebeb;
 }
 .nearlyPlaces__img {
-  width: 30px;
   height: 30px;
 }
 

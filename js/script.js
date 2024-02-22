@@ -3,40 +3,164 @@
 class Informer {
    // массив иконок (солнечно, облачно, дождь, снег)
    #imagesWeather = [
-      {title: 'Clear', url: 'src="./images/sun.png" alt="sunny"'},
-      {title: 'Clouds', url: 'src="./images/cloudy-sun.png" alt="cloudy"'},
-      {title: 'Haze', url: 'src="./images/cloudy.png" alt="cloudy"'},
-      {title: 'Rain', url: 'src="./images/rainy.png" alt="rainy"'},
-      {title: 'Snow', url: 'src="./images/snow.png" alt="snowy"'},
+      {title: 'Clear', url: 'src="./images/sun.png" alt="sun"'},
+      {title: 'Clouds', url: 'src="./images/cloud-sun.png" alt="clouds"'},
+      {title: 'Haze', url: 'src="./images/clouds.png" alt="clouds"'},
+      {title: 'Rain', url: 'src="./images/rain.png" alt="rain"'},
+      {title: 'Snow', url: 'src="./images/snow3.png" alt="snow"'},
    ];
  
    #data;
    #weatherData = [];
+   #apiCity = '';
+   // #apiCoord = '';
+   // dataCoord;
 
    constructor(container) {
-      this.api = 'http://api.openweathermap.org/data/2.5/weather?q=Poltava&units=metric&APPID=f87bc2c36adb84eb70ac5df2593571c6';
+      // this.api = 'http://api.openweathermap.org/data/2.5/weather?q=Poltava&units=metric&APPID=f87bc2c36adb84eb70ac5df2593571c6';
       this.apiPoltava = 'https://api.openweathermap.org/data/2.5/forecast?lat=49.59&lon=34.54&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6';
-      
+
       // Для температуры в градусах Цельсия и скорости ветра в метрах/сек после q=Poltava нужно добавить &units=metric (единицы=метрические)
       // По умолчанию используется температура в градусах Кельвина и скорость ветра в метрах/сек
       
       this.informer = document.querySelector(container);
       this.search = document.getElementById('search');
-      this.tabsMenu = document.querySelector('.tabs-menu');
-      this.tabToday = this.tabsMenu.querySelector('.tab-menu__today');
-      this.tabForecast = this.tabsMenu.querySelector('.tab-menu__forecast');
+      this.tabMenu = document.querySelector('.tab-menu');
+      this.tabToday = this.tabMenu.querySelector('.tab-menu__today');
+      this.tabForecast = this.tabMenu.querySelector('.tab-menu__forecast');
    }
 
-   getApi(city) {
-      // let value = this.search.value;
-      // console.log(value);
-      return `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=f87bc2c36adb84eb70ac5df2593571c6`;
+   // searchCity()   
+   getApiCity() {
+      let city = this.search.value.trim();
+      console.log(city);
+      if(city == '') {
+         this.renderErrorBlock('none'); 
+         return
+      } 
+
+      // обрезать полученные данные по пробелу или запятой ?
+
+      let api = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=f87bc2c36adb84eb70ac5df2593571c6`;
+      console.log(api);
+      // return api;
+
+      fetch(api)
+         .then(response => {
+            if(response.ok) {
+
+               return response.json();
+            } else {
+               throw 'Помилка HTTP: ' + response.status;
+            }             
+         })
+         .then((response) => {           
+            if(!response) {
+               return
+            } else {     
+               let data = response;
+               // console.log(data); 
+               let latCoord = data.coord.lat;
+               let lonCoord = data.coord.lon;
+               // console.log(latCoord);
+               // console.log(lonCoord);
+               this.#apiCity = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
+               // let apiCity = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
+               // api города из поля поиска c координатами для почасового прогноза
+               console.log(this.#apiCity); 
+               this.getWeather(this.#apiCity);               
+            }
+         })
+         .catch(() => this.renderErrorBlock('city')); 
    }
+
+   // getGeolocation() {
+   //    let apiCoord;
+   //    let latCoord;
+   //    let lonCoord;
+   //    let data;
+
+   //   // Чтобы использовать Geolocation API, необходимо проверить, 
+   //   // поддерживается ли он в текущем браузере:
+   //    if (navigator.geolocation) {
+   //       /* местоположение доступно */
+   //       // let apiCoord;
+   //       // let latCoord;
+   //       // let lonCoord;
+   //       // let data;
+
+   //       navigator.geolocation.getCurrentPosition(success, error);
+
+   //       function success(position) {
+   //          latCoord = position.coords.latitude;
+   //          lonCoord = position.coords.longitude; 
+   //          apiCoord = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
+   //          // this.#apiCoord = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
+   //          console.log(apiCoord);  
+   //          // console.log(this.#apiCoord);  
+   //          console.log(latCoord);
+   //          console.log(lonCoord);
+
+   //          fetch(apiCoord)                
+   //             .then(response => {
+   //                console.log(apiCoord);   
+   //                if(response.ok) {
+   //                   return response.json();
+   //                } else {
+   //                   throw 'Помилка HTTP: ' + response.status;
+   //                }             
+   //             })
+   //             .then((response) => {    
+   //                console.log(response);       
+   //                if(!response) {
+   //                   return
+   //                } else {   
+   //                   // this.#data = response;
+   //                   // console.log(this.#data);
+   //                   console.log(response); 
+   //                   data = response;
+   //                   console.log(data);
+   //                   // this.dataCoord = data;
+   //                   // this.dataCoord = response;
+   //                   // console.log(this.dataCoord);
+   //                   // this.getWeatherData();
+   //                   // console.log(this.#weatherData); 
+   //                   // this.renderWeatherInformer();
+   //                }
+   //             })
+   //             .catch(() => console.error('Помилка HTTP: ' + response.status))
+   //       }
+   //       function error(err) {
+   //          console.warn(`ERROR(${err.code}): ${err.message}`);
+   //          console.error('Невозможно получить ваше местоположение');
+   //          return
+   //       }
+   //       // console.log(latCoord);
+   //       // console.log(lonCoord);
+   //       apiCoord = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
+   //       this.#apiCoord = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
+   //       // console.log(this.#apiCoord);    
+   //       // console.log(apiCoord);    
+   //       // console.log(data);
+   //       // this.getWeather(this.#apiCity); 
+
+   //    } else {
+   //       /* местоположение НЕ доступно */
+   //       console.error('Geolocation не поддерживается вашим браузером');
+   //       return
+   //    }
+   //    // console.log(apiCoord);    
+   //    console.log(data);
+   //    // console.log(latCoord);
+   //    // console.log(lonCoord);
+   // }
 
    getWeather(api) {
-      // fetch(api) // api города из поля поиска 
-         // нужны координаты для почасового прогноза
-      fetch(this.apiPoltava)
+      // api города из поля поиска с координатами для почасового прогноза
+      // fetch(this.apiPoltava)            
+      // console.log(this.apiCity);
+      // fetch(this.apiCity)   
+      fetch(api)  
          .then(response => {
             if(response.ok) {
                return response.json();
@@ -51,12 +175,15 @@ class Informer {
                this.#data = response;
                console.log(this.#data); 
                this.getWeatherData();
-               console.log(this.#weatherData); 
+               console.log(this.#weatherData);
+               // this.search.value = this.#data.city.name; // название города из сайта погоды 
                this.renderWeatherInformer();
             }
          })
-         .catch(() => this.renderErrorBlock()); 
-         // написать разный текст ошибок
+         .catch(() => {
+            this.renderErrorBlock();
+            this.search.value = '';
+         }) 
    }
 
    get currentDate() {
@@ -121,14 +248,21 @@ class Informer {
    }
 
    getWindDirection(deg) {
-      if (deg < 25 || deg > 335) return 'N'; // NORTH (N)
+      if (deg < 25 || deg >= 335) return 'N'; // NORTH (N)
       if (deg > 25 && deg < 65) return 'NE'; // северо-восток (NE)
+      if (deg = 25) return 'NE'; 
       if (deg > 65 && deg < 115) return 'E'; // EAST (E)
+      if (deg = 65) return 'E'; 
       if (deg > 115 && deg < 155) return 'SE'; // юго-восток (SE)
+      if (deg = 115) return 'SE'; 
       if (deg > 155 && deg < 205) return 'S'; // SOUTH (S)
+      if (deg = 155) return 'S';
       if (deg > 205 && deg < 245) return 'SW'; // юго-запад (SW)
+      if (deg = 205) return 'SW'; 
       if (deg > 245 && deg < 295) return 'W'; // WEST (W)
+      if (deg = 245) return 'W';
       if (deg > 295 && deg < 335) return 'NW'; // северо-запад (NW)
+      if (deg = 295) return 'NW';
    }
    get sunrise() {
       // let timestamp = this.#dataPoltava.sys.sunrise * 1000;
@@ -175,11 +309,11 @@ class Informer {
    }
 
    renderWeatherInformer() {
-      this.informer.innerHTML = '';
+      this.informer.innerHTML = '';   
       this.renderCurWeatherBlock();
       this.renderHourlyBlock(this.#weatherData, this.informerToday, 'TODAY');
-      // this.renderNearbyPlacesBlock();
-      // this.getNearbyPlacesWeather();
+      this.renderNearbyPlacesBlock();
+      this.getNearbyPlacesWeather();
 
    } 
 
@@ -212,7 +346,6 @@ class Informer {
    }
 
    renderHourlyBlock(array, container, day) {
-      // console.log(this.#weatherData);
       let timeForecast = '';
       let image = '';
       let description = '';
@@ -220,7 +353,7 @@ class Informer {
       let tempFeel = '';
       let wind = ''; 
 
-      // this.#weatherData.forEach((elem, index) => {
+      // this.#weatherData.forEach((elem, index) => {})
       array.forEach((elem, index) => {
          if (index < 8) {
             timeForecast += `<p class="hourlyWeather__time">${elem.time}</p>`;
@@ -230,8 +363,7 @@ class Informer {
             tempFeel += `<p class="hourlyWeather__temp">${elem.tempFeel}°</p>`;
             wind += `<p class="hourlyWeather__windDeg">${elem.wind} ${elem.windDeg}</p>`;
          }
-      })
-      
+      })      
       let html = `<div class="hourlyWeather">
                      <h4 class="hourlyWeather__title">HOURLY</h4>
                      <div class="hourlyWeather__content">
@@ -243,9 +375,61 @@ class Informer {
                         <p class="hourlyWeather__wind">Wind(km/h)</p>${wind}
                      </div>
                   </div>`;
-      // this.informerToday.insertAdjacentHTML('beforeend', html); 
       container.insertAdjacentHTML('beforeend', html); 
+
+      let hourlyBlock = this.informer.querySelector('.hourlyWeather__content');
+      let counter = array.length;
+      if(counter < 8) {
+         hourlyBlock.style.gridTemplateColumns = `minmax(115px, 2fr) repeat(${counter}, minmax(70px, 1fr))`;
+      }
    }
+
+   renderNearbyPlacesBlock() {
+      let html = `<div class="nearby">
+                     <h4 class="nearby__title">NEARBY PLACES</h4>
+                     <div class="nearlyPlaces"></div>
+                  </div>`;
+      this.informerToday.insertAdjacentHTML('beforeend', html);
+   }
+
+   getNearbyPlacesWeather() {
+      let nearlyPlaces = this.informer.querySelector('.nearlyPlaces');
+      let cities = ['Kharkiv', 'Kremenchuk', 'Mirhorod', 'Krasnohrad'];
+      // let cities = ['Харків', 'Кременчук', 'Миргород', 'Красноград'];
+
+      cities.forEach(elem => {
+         let cityApi = `http://api.openweathermap.org/data/2.5/weather?q=${elem}&units=metric&APPID=f87bc2c36adb84eb70ac5df2593571c6`;
+
+         fetch(cityApi)
+         .then(response => {
+            if(response.ok) {
+               return response.json();
+            } else {
+               throw 'Помилка HTTP: ' + response.status;
+            }             
+         })
+         .then((response) => {           
+            if(!response) {
+               return
+            } else {
+               // console.log(response);
+               let cityTemp = response.main.temp; 
+               let cityWeather = response.weather[0].main;
+               // console.log(cityWeather);
+               let cityClouds = response.clouds.all;
+               // console.log(cityClouds);
+               let html = `<div class="nearlyPlaces__place">
+                              <p class="nearlyPlcses__name">${elem}</p>
+                              <img class="nearlyPlaces__img" ${this.getWeatherImg(cityWeather, cityClouds)}>
+                              <p class="nearlyPlaces__temp">${Math.round(cityTemp)} °C</p>
+                           </div>`;
+               nearlyPlaces.insertAdjacentHTML('beforeend', html);
+            }
+         })
+         .catch((response) => console.error(response)); 
+      })
+   }
+
 
    getWeatherForecast(event) {
       if (event.target.matches('.tab-menu__today')) {
@@ -280,9 +464,9 @@ class Informer {
          // console.log(newArr);
          let html = `<div class="weatherForecast__block" id="${curDay + i}">
                   <h4 class="weatherForecast__day">${newArr[0].dayShort}</h4>
-                  <p class="weatheForecast__date">${newArr[0].month} ${curDay + i}</p>
-                  <img class="weatheForecast__img" ${newArr[0].image}>
-                  <span class="weatheForecast__temp">${newArr[0].temp} °C</span>
+                  <p class="weatherForecast__date">${newArr[0].month} ${curDay + i}</p>
+                  <img class="weatherForecast__img" ${newArr[0].image}>
+                  <span class="weatherForecast__temp">${newArr[0].temp} °C</span>
                   <p class="curWeather__text">${newArr[0].descr}</p>
                </div>`;
          weatherForecast.insertAdjacentHTML('beforeend', html);
@@ -294,10 +478,9 @@ class Informer {
    
    getForecastHourly(event) {
       let targetBlock = event.target.closest('.weatherForecast__block');
-      // console.log(targetBlock);
-      console.log(targetBlock.id); // день 
+      // console.log(targetBlock.id); // день 
       let newArr = this.#weatherData.filter(elem => elem.date == (targetBlock.id));
-      console.log(newArr);
+      // console.log(newArr);
 
       let weatherForecast = this.informer.querySelector('.weatherForecast');
       let forecastBlocks = weatherForecast.querySelectorAll('.weatherForecast__block');
@@ -321,41 +504,34 @@ class Informer {
       this.renderHourlyBlock(newArr, this.informerForecast, newArr[0].day);
    }
 
-   renderErrorBlock() {
+   renderErrorBlock(val) {
       let value = this.search.value;
-      console.log(value);
-      this. informer.innerHTML = `<div class="error">
+      console.log(value);      
+      this.informer.innerHTML = `<div class="error">
                                        <img class="error__img" src="images/img_error.jpg" alt="">
-                                       <p class="error__text">${value} could not be found.</p>
-                                       <p class="error__text">Please enter a different location.</p>
-                                   </div>`;
+                                       <p class="error__text">Not found</p>
+                                 </div>`;
+      let text = '';    
+      if(val == 'none') {
+         text = '<p class="error__text">Please enter a location</p>';
+      }                           
+      if(val == 'city') {
+         text = `<p class="error__text">${value} could not be found.</p>
+         <p class="error__text">Please enter a different location.</p>`;
+      }                           
+      this.informer.querySelector('.error').insertAdjacentHTML('beforeend', text);
+                                   
    }
+      // доработать ошибки
 
    init() {
-      this.getWeather();     
-      // api по умолчанию this.apiPoltava и запрос геолокации !!!
-      this.tabsMenu.addEventListener('click', this.getWeatherForecast.bind(this));
-      // this.informer.addEventListener('click', this.getForecastHourly.bind(this));
+      // this.getGeolocation();
+      this.getWeather(this.apiPoltava); 
+      this.tabMenu.addEventListener('click', this.getWeatherForecast.bind(this));
+      this.search.addEventListener('change', this.getApiCity.bind(this));
    }
 }
 
 // const info = new Informer();
 // info.init();
 new Informer('.informer').init();  
-
-//--------------------------------------------------
-// Определение геолокации
-
-// function success(pos) {
-//    var crd = pos.coords;
-
-//    console.log(`Широта: ${crd.latitude}`); // Широта: 42.5237237
-//    console.log(`Долгота: ${crd.longitude}`); // Долгота: -7.5219799
-//    // console.log(`Плюс-минус ${crd.accuracy} метров.`);
-// }
-
-// function error(err) {
-//    console.warn(`ERROR(${err.code}): ${err.message}`);
-// }
-
-// navigator.geolocation.getCurrentPosition(success, error);

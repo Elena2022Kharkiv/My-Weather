@@ -10,13 +10,15 @@
     <header>
         <div class="header">
             <h2 class="header__logo">MY WEATHER</h2>
-            <form class="header__search">
-                <input type="text" id="search" value="Poltava, Ukraine">
-                <!-- <input type="text" placeholder="Choose a city"> -->
-                <img class="header__img" src="images/search.png" alt="">
-            </form>
+            <div class="header__search">
+                <!-- <input type="text" id="search" value="Poltava, Ukraine"> -->
+                <!-- <input type="text" id="search" value="Poltava"> -->
+                <input type="search" id="search" value="Poltava" placeholder="Choose a location">
+                <!-- <input type="text" id="search" placeholder="Choose a city"> -->
+                <img class="header__search-img" src="images/search_104498.png" alt="">
+            </div>
         </div>
-        <ul class="tabs-menu">
+        <ul class="tab-menu">
             <li class="tab-menu__today active">Today</li>
             <li class="tab-menu__forecast">5-day forecast</li>
         </ul>   
@@ -98,36 +100,34 @@
                     </div>
                     <div class="weatherForecast__block">
                         <h4 class="weatherForecast__day">MON</h4>
-                        <p class="weatheForecast__date">JUL 02</p>
-                        <img class="weatheForecast__img" src="./images/sun.png" alt="sunny">
-                        <span class="weatheForecast__temp">29 °C</span>
+                        <p class="weatherForecast__date">JUL 02</p>
+                        <img class="weatherForecast__img" src="./images/sun.png" alt="sunny">
+                        <span class="weatherForecast__temp">29 °C</span>
                         <p class="curWeather__text">Sunny, Warm</p>
                     </div>
                     <div class="weatherForecast__block">
                         <h4 class="weatherForecast__day">TUE</h4>
-                        <p class="weatheForecast__date">JUL 03</p>
-                        <img class="weatheForecast__img" src="./images/sun.png" alt="sunny">
-                        <span class="weatheForecast__temp">29 °C</span>
+                        <p class="weatherForecast__date">JUL 03</p>
+                        <img class="weatherForecast__img" src="./images/sun.png" alt="sunny">
+                        <span class="weatherForecast__temp">29 °C</span>
                         <p class="curWeather__text">Sunny, Warm</p>
                     </div>
                     <div class="weatherForecast__block">
                         <h4 class="weatherForecast__day">WED</h4>
-                        <p class="weatheForecast__date">JUL 04</p>
-                        <img class="weatheForecast__img" src="./images/sun.png" alt="sunny">
-                        <span class="weatheForecast__temp">29 °C</span>
+                        <p class="weatherForecast__date">JUL 04</p>
+                        <img class="weatherForecast__img" src="./images/sun.png" alt="sunny">
+                        <span class="weatherForecast__temp">29 °C</span>
                         <p class="curWeather__text">Sunny, Warm</p>
                     </div>
                     <div class="weatherForecast__block">
                         <h4 class="weatherForecast__day">SUN</h4>
-                        <p class="weatheForecast__date">JUL 05</p>
-                        <img class="weatheForecast__img" src="./images/sun.png" alt="sunny">
-                        <span class="weatheForecast__temp">29 °C</span>
+                        <p class="weatherForecast__date">JUL 05</p>
+                        <img class="weatherForecast__img" src="./images/sun.png" alt="sunny">
+                        <span class="weatherForecast__temp">29 °C</span>
                         <p class="curWeather__text">Sunny, Warm</p>
                     </div>
                 </div> 
-                <div class="hourlyForecast" / class="hourlyWeather">
-                    <h4 class="hourlyForecast__title">HOURLY</h4>
-                </div>
+                <div class="hourlyWeather"></div>                
             </div> -->
             <!-- <div class="error">
                 <img class="error__img" src="images/img_error.jpg" alt="">
