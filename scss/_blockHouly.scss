@@ -1,0 +1,128 @@
+.hourlyWeather {
+    &__content {
+        display: grid;
+        grid-template-rows: 1fr auto repeat(4, 1fr);
+    }
+    &__temperature,
+    &__tempFeel,
+    &__windDeg {
+        border-top: 1px solid $bgMainColor;
+    }
+    &__img {
+        height: 60px;
+        margin: 10px 0;
+    }
+}
+.row {
+    display: grid;
+    grid-template-columns: minmax(150px, 2fr) repeat(8, minmax(110px, 1fr));
+    padding: 10px; 
+    padding-left: 0;
+}
+
+// $bp1: 1130px;
+@media (max-width: 1130px) {
+    .hourlyWeather {        
+        &__content {
+            display: grid;
+            grid-template-rows: 1fr auto repeat(4, 1fr);
+        }
+        &__temperature,
+        &__tempFeel,
+        &__windDeg {
+            border-top: 1px solid $bgMainColor;
+        }
+        &__img {
+            height: 50px;
+            margin: 10px 0;
+        }
+    }
+    .row {
+        display: grid;
+        grid-template-columns: minmax(130px, 2fr) repeat(8, minmax(90px, 1fr));
+        padding: 10px; 
+        padding-left: 0;        
+    }       
+}
+
+// $bp2: 960px;
+@media (max-width: 960px) {    
+    .hourlyWeather {
+        &__content {
+            display: grid;
+            grid-template-rows: auto;
+            grid-template-columns: 1fr auto repeat(4, 1fr);
+        }
+        &__img {
+            height: 40px;
+            margin: 10px 70px 10px 0;
+        }
+    }
+    .row {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        padding: 0;
+        border: none;
+    }
+
+    .cell {       
+        align-self: center;
+    }
+}
+
+// $bp3: 750px;
+@media (max-width: 750px) {    
+    .hourlyWeather {
+        &__img {
+            height: 35px;
+            margin: 10px 50px 10px 0;
+        }
+    }  
+    .row {
+        font-size: 14px;
+    }
+}
+
+// $bp4: 640px;
+@media (max-width: 640px) {    
+    .hourlyWeather {
+        &__content {
+            display: grid;
+            gap: 20px;
+        }
+        &__img {
+            height: 35px;
+            margin: 20px 20px 0 0;
+        }
+    }  
+    .title {
+        height: 40px;
+    } 
+}
+
+// $bp5: 550px;
+@media (max-width: 550px) {    
+    .hourlyWeather {
+        &__img {
+            height: 30px;
+            margin: 10px 10px 0 0;
+        }
+    }  
+    .title {
+        height: 40px;
+    } 
+}
+
+// $bp6: 470px;
+@media (max-width: 470px) {    
+    .hourlyWeather {
+        &__img {
+            height: 30px;
+            margin-top: 10px;
+        }
+    }  
+    .title {
+        height: 40px;
+    } 
+}

@@ -25,8 +25,8 @@
     </header>
     <main>
         <div class="informer">  
-            <!-- <div class="informer__today"> -->
-                <!-- <div class="curWeather">
+            <div class="informer__today"> 
+                <div class="curWeather">
                     <h4 class="curWeather__title">CURRENT WEATHER</h4>
                     <span class="curWeather__date">30.06.2018</span>
                     <div class="curWeather__content">
@@ -44,24 +44,78 @@
                             <p class="curWeather__duration">Duration: 10:07 hr</p>
                         </div>
                     </div>
-                </div> -->
-                <!-- <div class="hourlyWeather">
-                    <h4 class="hourlyWeather__title">HOURLY</h4>
-                    <div class="hourlyWeather__content">
-                        <p class="hourlyWeather__day">TODAY</p>
-                        <p class="hourlyWeather__time">7 pm</p>
-                        <p></p> 
-                        <img class="hourlyWeather__img" src="./images/sun.png" alt="sunny">
-                        <p class="hourlyWeather__forecast">Forecast</p>
-                        <p class="hourlyWeather__description">Sunny</p>
-                        <p class="hourlyWeather__temperature">Temp (°C)</p>
-                        <p class="hourlyWeather__temp">11°</p>
-                        <p class="hourlyWeather__tempFeel">Real Feel</p>
-                        <p class="hourlyWeather__temp">10°</p>
-                        <p class="hourlyWeather__wind">Wind(km/h)</p>
-                        <p class="hourlyWeather__windDeg">5 ESE</p>
-                    </div>
-                </div> -->
+                </div>
+                <div class="hourlyWeather">
+                    <h4 class="hourlyWeather__titleBlock">HOURLY</h4>
+                    <div class="hourlyWeather__content">                       
+                        <div class="hourlyWeather__time row">
+                            <div class="title cell">TODAY</div>
+                            <div class="cell">7 pm</div>
+                            <div class="cell">7 pm</div>
+                            <div class="cell">7 pm</div>
+                            <div class="cell">7 pm</div>
+                            <div class="cell">7 pm</div>
+                            <div class="cell">7 pm</div>
+                            <div class="cell">7 pm</div>
+                            <div class="cell">7 pm</div>
+                        </div>
+                        <div class="hourlyWeather__images row images" src="./images/sun.png" alt="sunny">
+                            <div class="hourlyWeather__img title cell empty"></div>
+                            <img class="hourlyWeather__img cell" src="./images/sun.png" alt="sunny">
+                            <img class="hourlyWeather__img cell" src="./images/sun.png" alt="sunny">
+                            <img class="hourlyWeather__img cell" src="./images/sun.png" alt="sunny">
+                            <img class="hourlyWeather__img cell" src="./images/sun.png" alt="sunny">
+                            <img class="hourlyWeather__img cell" src="./images/sun.png" alt="sunny">
+                            <img class="hourlyWeather__img cell" src="./images/sun.png" alt="sunny">
+                            <img class="hourlyWeather__img cell" src="./images/sun.png" alt="sunny">
+                            <img class="hourlyWeather__img cell" src="./images/sun.png" alt="sunny">
+                        </div>
+                        <div class="hourlyWeather__forecast row">
+                            <div class="title cell">Forecast</div>
+                            <div class="cell">Sunny</div>
+                            <div class="cell">Sunny</div>
+                            <div class="cell">Sunny</div>
+                            <div class="cell">Sunny</div>
+                            <div class="cell">Sunny</div>
+                            <div class="cell">Sunny</div>
+                            <div class="cell">Sunny</div>
+                            <div class="cell">Sunny</div>
+                        </div>
+                        <div class="hourlyWeather__temperature row">
+                            <div class="title cell">Temp (°C)</div>
+                            <div class="cell">11°</div>
+                            <div class="cell">11°</div>
+                            <div class="cell">11°</div>
+                            <div class="cell">11°</div>
+                            <div class="cell">11°</div>
+                            <div class="cell">11°</div>
+                            <div class="cell">11°</div>
+                            <div class="cell">11°</div>
+                        </div>
+                        <div class="hourlyWeather__tempFeel row">
+                            <div class="title cell">Real Feel</div>
+                            <div class="cell">10°</div>
+                            <div class="cell">10°</div>
+                            <div class="cell">10°</div>
+                            <div class="cell">10°</div>
+                            <div class="cell">10°</div>
+                            <div class="cell">10°</div>
+                            <div class="cell">10°</div>
+                            <div class="cell">10°</div>
+                        </div>
+                        <div class="hourlyWeather__windDeg row">
+                            <div class="title cell">Wind (km/h)</div>
+                            <div class="cell">5 ESE</div>
+                            <div class="cell">5 ESE</div>
+                            <div class="cell">5 ESE</div>
+                            <div class="cell">5 ESE</div>
+                            <div class="cell">5 ESE</div>
+                            <div class="cell">5 ESE</div>
+                            <div class="cell">5 ESE</div>
+                            <div class="cell">5 ESE</div>
+                        </div>
+                    </div> 
+                </div>
                 <!-- <div class="nearby">
                     <h4 class="nearby__title">NEARBY PLACES</h4>
                     <div class="nearlyPlaces">
@@ -88,7 +142,7 @@
                         </div>
                     </div>
                 </div> -->
-            <!-- </div> -->
+            </div>
         <!-- <div class="informer__forecast">
                 <div class="weatherForecast">
                     <div class="weatherForecast__block activeBlock">
@@ -142,3 +196,80 @@
 
 </body>
 </html>
+
+<!-- 
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email</th>
+      <th>Street</th>
+      <th>Country</th>
+      <th>University</th>
+      <th>IBAN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>000001</td>
+      <td>Lani</td>
+      <td>Ovendale</td>
+      <td>lovendale0@w3.org</td>
+      <td>7850 Old Shore Drive</td>
+      <td>United Kingdom</td>
+      <td>University of Plymouth</td>
+      <td>BG34 MPVP 8782 88EX H1CJ SC</td>
+    </tr>
+    ...
+------------------------------------
+table {
+    display: grid;
+    border-collapse: collapse;
+    min-width: 100%;
+    grid-template-columns: 
+        minmax(150px, 1fr)
+        minmax(150px, 1.67fr)
+        minmax(150px, 1.67fr)
+        minmax(150px, 1.67fr)
+        minmax(150px, 3.33fr)
+        minmax(150px, 1.67fr)
+        minmax(150px, 3.33fr)
+        minmax(150px, 1.67fr);
+}
+thead,
+    tbody,
+    tr {
+    display: contents;
+}
+th,
+td {
+    padding: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+th {
+    position: sticky;
+    top: 0;
+    background: #6c7ae0;
+    text-align: left;
+    font-weight: normal;
+    font-size: 1.1rem;
+    color: white;
+}
+
+th:last-child {
+    border: 0;
+}
+td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #808080;
+}
+
+tr:nth-child(even) td {
+  background: #f8f6ff;
+}
+ -->

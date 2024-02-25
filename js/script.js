@@ -534,4 +534,4 @@ class Informer {
 
 // const info = new Informer();
 // info.init();
-new Informer('.informer').init();  
+// new Informer('.informer').init();  
