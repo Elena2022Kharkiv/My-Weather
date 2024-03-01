@@ -1,0 +1,134 @@
+.header {
+    display: flex;
+    margin: 20px;
+    &__logo {
+        color: $titleColor;
+    }
+    &__search {
+        // display: flex;
+        margin-left: auto;
+        // height: 30px;
+        position: relative;
+        input {
+            width: 300px;
+            padding: 5px;
+            border: 2px solid #979797;
+            font-size: 16px;
+            padding-right: 40px;
+            outline: none;
+        }
+        input:hover {
+            cursor: pointer;
+            border-color: $titleColor;
+        }
+        input:focus {
+            border-color: $titleColor;
+            background: white;
+        }
+    }
+    &__search-img {
+        height: 20px;
+        position: absolute;
+        top: 7px;
+        right: 3px;
+    }    
+}
+
+.tab-menu {
+    display: flex;
+    background: rgb(62, 62, 62);
+    li {
+        // width: 200px;
+        border-left: 1px solid #979797;
+        // border-right: 1px solid #979797;
+        padding: 8px 20px;
+        text-align: center;
+        color: white;        
+        cursor: pointer;
+    }
+    li:first-child {
+        margin-left: 20px;
+        // border-left: 1px solid #979797;
+    }
+    li:hover {
+        color: $titleColor;
+    }
+}
+
+.active {
+    border-bottom: 3px solid $titleColor;
+}
+
+// $bp3: 750px;
+@media (max-width: 750px) {
+    .header {
+        display: block;
+        &__search {
+            margin-top: 10px;
+            }
+        #search {
+            display: block;
+            margin-left: auto;
+        }
+    }
+}
+
+// $bp4: 650px;
+@media (max-width: 650px) {
+    .header {
+        margin: 10px;
+        &__logo {
+            font-size: 22px;
+        }
+        &__search {
+            // width: 250px;
+            margin-top: 10px;
+            }
+        #search {
+            display: block;
+            margin-left: auto;
+            width: 270px;
+            padding: 3px 25px 3px 5px;
+            font-size: 15px;
+            border: 1px solid #979797;
+
+        }
+        &__search-img {
+            height: 17px;
+            top: 5px;
+            right: 5px;
+        }  
+    }
+    .tab-menu li {
+        padding: 5px 10px;
+    }
+}
+
+// $bp5: 550px;
+@media (max-width: 550px) {
+    .header {
+        #search {
+            width: 250px;           
+            font-size: 14px;
+        }
+        &__search-img {
+            height: 15px;
+        }    
+    }
+}
+
+// $bp6: 480px;
+@media (max-width: 480px) {
+    .header {
+        &__logo {
+            font-size: 20px;
+        }
+        #search {
+            width: 220px;
+        }       
+    } 
+    .tab-menu li {
+        font-size: 14px;
+        padding: 4px 10px;
+    }    
+}

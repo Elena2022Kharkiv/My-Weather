@@ -1,7 +1,6 @@
 'use strict'
 
 class Informer {
-   // массив иконок (солнечно, облачно, дождь, снег)
    #imagesWeather = [
       {title: 'Clear', url: 'src="./images/sun.png" alt="sun"'},
       {title: 'Clouds', url: 'src="./images/cloud-sun.png" alt="clouds"'},
@@ -30,7 +29,6 @@ class Informer {
       this.tabForecast = this.tabMenu.querySelector('.tab-menu__forecast');
    }
 
-   // searchCity()   
    getApiCity() {
       let city = this.search.value.trim();
       console.log(city);
@@ -39,11 +37,8 @@ class Informer {
          return
       } 
 
-      // обрезать полученные данные по пробелу или запятой ?
-
       let api = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=f87bc2c36adb84eb70ac5df2593571c6`;
       console.log(api);
-      // return api;
 
       fetch(api)
          .then(response => {
@@ -62,10 +57,7 @@ class Informer {
                // console.log(data); 
                let latCoord = data.coord.lat;
                let lonCoord = data.coord.lon;
-               // console.log(latCoord);
-               // console.log(lonCoord);
                this.#apiCity = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
-               // let apiCity = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
                // api города из поля поиска c координатами для почасового прогноза
                console.log(this.#apiCity); 
                this.getWeather(this.#apiCity);               
@@ -156,10 +148,6 @@ class Informer {
    // }
 
    getWeather(api) {
-      // api города из поля поиска с координатами для почасового прогноза
-      // fetch(this.apiPoltava)            
-      // console.log(this.apiCity);
-      // fetch(this.apiCity)   
       fetch(api)  
          .then(response => {
             if(response.ok) {
@@ -176,7 +164,6 @@ class Informer {
                console.log(this.#data); 
                this.getWeatherData();
                console.log(this.#weatherData);
-               // this.search.value = this.#data.city.name; // название города из сайта погоды 
                this.renderWeatherInformer();
             }
          })
@@ -193,7 +180,6 @@ class Informer {
       let year = date.getFullYear().toString();
       
       let currentDate = `${day}.${month}.${year}`;
-      // console.log(currentDate);
       return currentDate;
    }
 
@@ -226,10 +212,8 @@ class Informer {
          obj.windDeg = this.getWindDirection(elem.wind.deg);
          
          // console.log(obj);
-         // this.#weatherData[index] = obj;
          this.#weatherData[index] = obj;
       })
-      // console.log(this.#weatherData);
    }
 
    getWeatherImg(weather, clouds) {
@@ -265,7 +249,6 @@ class Informer {
       if (deg = 295) return 'NW';
    }
    get sunrise() {
-      // let timestamp = this.#dataPoltava.sys.sunrise * 1000;
       let timestamp = this.#data.city.sunrise * 1000;
       // console.log(timestamp);
       let date = new Date(timestamp);
@@ -277,9 +260,7 @@ class Informer {
    }
 
    get sunset() {
-      // let timestamp = this.#dataPoltava.sys.sunset * 1000;
       let timestamp = this.#data.city.sunset * 1000;
-      // console.log(timestamp);
       let date = new Date(timestamp);
       let hours = date.getHours();
       let minutes = date.getMinutes().toString().padStart(2, '0'); 
@@ -288,14 +269,9 @@ class Informer {
    }
 
    get duration() {
-      // let seconds = this.#dataPoltava.sys.sunset - this.#dataPoltava.sys.sunrise;
       let seconds = this.#data.city.sunset - this.#data.city.sunrise;
-      // console.log(seconds);
-      // console.log(seconds / 60); // всего минут
       let hours = Math.trunc(seconds / 60 / 60); 
-      // console.log(hours);
       let minutes = Math.round(seconds / 60 - hours * 60);
-      // console.log(minutes);
       let duration = `${hours}:${minutes}`
       return duration;
    }
@@ -306,6 +282,10 @@ class Informer {
 
    get informerForecast() {
       return this.informer.querySelector('.informer__forecast');
+   }
+
+   get weatherForecast() {
+      return this.informer.querySelector('.weatherForecast');
    }
 
    renderWeatherInformer() {
@@ -353,40 +333,51 @@ class Informer {
       let tempFeel = '';
       let wind = ''; 
 
-      // this.#weatherData.forEach((elem, index) => {})
       array.forEach((elem, index) => {
          if (index < 8) {
-            timeForecast += `<p class="hourlyWeather__time">${elem.time}</p>`;
-            image += `<img class="hourlyWeather__img" ${elem.image}>`;
-            description += `<p class="hourlyWeather__description">${elem.descr}</p>`;
-            temp += `<p class="hourlyWeather__temp">${elem.temp}°</p>`;
-            tempFeel += `<p class="hourlyWeather__temp">${elem.tempFeel}°</p>`;
-            wind += `<p class="hourlyWeather__windDeg">${elem.wind} ${elem.windDeg}</p>`;
+            timeForecast += `<p class="cell">${elem.time}</p>`;
+            image += `<img class="hourlyWeather__img cell" ${elem.image}>`;
+            description += `<p class="cell">${elem.descr}</p>`;
+            temp += `<p class="cell">${elem.temp}°</p>`;
+            tempFeel += `<p class="cell">${elem.tempFeel}°</p>`;
+            wind += `<p class="cell">${elem.wind} ${elem.windDeg}</p>`;
          }
       })      
       let html = `<div class="hourlyWeather">
-                     <h4 class="hourlyWeather__title">HOURLY</h4>
+                     <h4 class="hourlyWeather__titleBlock">HOURLY</h4>                     
                      <div class="hourlyWeather__content">
-                        <p class="hourlyWeather__day">${day}</p>${timeForecast}                       
-                        <p></p> ${image}
-                        <p class="hourlyWeather__forecast">Forecast</p>${description}
-                        <p class="hourlyWeather__temperature">Temp (°C)</p>${temp}
-                        <p class="hourlyWeather__tempFeel">Real Feel</p>${tempFeel}
-                        <p class="hourlyWeather__wind">Wind(km/h)</p>${wind}
+                        <div class="hourlyWeather__time row">
+                           <div class="title cell day">${day}</div>
+                           ${timeForecast} 
+                        </div>
+                        <div class="hourlyWeather__images row">                      
+                           <div class="hourlyWeather__img title cell empty"></div>
+                           ${image}
+                        </div>
+                        <div class="hourlyWeather__forecast row">
+                           <div class="title cell forecast">Forecast</div>
+                           ${description}
+                        </div>
+                        <div class="hourlyWeather__temperature row">
+                           <div class="title cell">Temp (°C)</div>
+                           ${temp}
+                        </div>
+                        <div class="hourlyWeather__tempFeel row">
+                           <div class="title cell">Real Feel</div>
+                           ${tempFeel}
+                        </div>
+                        <div class="hourlyWeather__windDeg row">
+                           <div class="title cell">Wind (km/h)</div>
+                           ${wind}
+                        </div>
                      </div>
                   </div>`;
       container.insertAdjacentHTML('beforeend', html); 
-
-      let hourlyBlock = this.informer.querySelector('.hourlyWeather__content');
-      let counter = array.length;
-      if(counter < 8) {
-         hourlyBlock.style.gridTemplateColumns = `minmax(115px, 2fr) repeat(${counter}, minmax(70px, 1fr))`;
-      }
    }
 
    renderNearbyPlacesBlock() {
       let html = `<div class="nearby">
-                     <h4 class="nearby__title">NEARBY PLACES</h4>
+                     <h4 class="nearly__title">NEARBY PLACES</h4>
                      <div class="nearlyPlaces"></div>
                   </div>`;
       this.informerToday.insertAdjacentHTML('beforeend', html);
@@ -435,7 +426,6 @@ class Informer {
       if (event.target.matches('.tab-menu__today')) {
          this.tabForecast.classList.remove('active');
          this.tabToday.classList.add('active');        
-         // this.getWeather(); 
          this.renderWeatherInformer();
       } 
       if (event.target.matches('.tab-menu__forecast')) {
@@ -447,61 +437,61 @@ class Informer {
 
    renderInformerForecast() {
       this.renderWeatherForecast();
-      this.renderForecastHourly();     
+      this.renderForecastHourly(); 
+      this.weatherForecast.addEventListener('click', this.getForecastHourly.bind(this));   
    }
 
    renderWeatherForecast() {
       this.informerToday.innerHTML = '';
       this.informerForecast.innerHTML = '<div class="weatherForecast"></div>';
-      let weatherForecast = this.informer.querySelector('.weatherForecast');
 
       let date = new Date();
       let curDay = date.getDate();
-      console.log(curDay + 1); // 19
+      let day = 1;    
 
-      for(let i = 1; i < 6; i++) {
+      for(let i = 1; i < 6; i++) {            
          let newArr = this.#weatherData.filter(elem => elem.date == (curDay + i));
-         // console.log(newArr);
-         let html = `<div class="weatherForecast__block" id="${curDay + i}">
+         if(newArr.length == 0) {
+            newArr = this.#weatherData.filter(elem => elem.date == day);
+            day ++;
+         }
+         if(newArr.length == 0 && i == 5) {return}
+         console.log(newArr);
+
+         let html = `<div class="weatherForecast__block" id="${newArr[0].date}">
                   <h4 class="weatherForecast__day">${newArr[0].dayShort}</h4>
-                  <p class="weatherForecast__date">${newArr[0].month} ${curDay + i}</p>
+                  <p class="weatherForecast__date">${newArr[0].month} ${newArr[0].date}</p>
                   <img class="weatherForecast__img" ${newArr[0].image}>
                   <span class="weatherForecast__temp">${newArr[0].temp} °C</span>
                   <p class="curWeather__text">${newArr[0].descr}</p>
                </div>`;
-         weatherForecast.insertAdjacentHTML('beforeend', html);
+         this.weatherForecast.insertAdjacentHTML('beforeend', html);
       }
-      document.getElementById(curDay + 1).classList.add('activeBlock');
-
-      weatherForecast.addEventListener('click', this.getForecastHourly.bind(this));
+      this.weatherForecast.querySelector('.weatherForecast__block').classList.add('activeBlock');
    }
    
    getForecastHourly(event) {
       let targetBlock = event.target.closest('.weatherForecast__block');
-      // console.log(targetBlock.id); // день 
       let newArr = this.#weatherData.filter(elem => elem.date == (targetBlock.id));
       // console.log(newArr);
 
-      let weatherForecast = this.informer.querySelector('.weatherForecast');
-      let forecastBlocks = weatherForecast.querySelectorAll('.weatherForecast__block');
+      let forecastBlocks = this.weatherForecast.querySelectorAll('.weatherForecast__block');
       forecastBlocks.forEach(elem => {
          elem.classList.remove('activeBlock');
       })
       targetBlock.classList.add('activeBlock');
 
       let wraper = this.informerForecast.querySelector('.hourlyWeather');
-      wraper.remove();
+      if (wraper) wraper.remove();
       
       this.renderHourlyBlock(newArr, this.informerForecast, newArr[0].day);
    }
 
    renderForecastHourly() {
-      let date = new Date();
-      let curDay = date.getDate();
-      console.log(curDay); // 18
-      let newArr = this.#weatherData.filter(elem => elem.date == (curDay + 1));
-      console.log(newArr);
-      this.renderHourlyBlock(newArr, this.informerForecast, newArr[0].day);
+      let firstBlock = this.weatherForecast.querySelector('.weatherForecast__block');
+      let newArray = this.#weatherData.filter(elem => elem.date == firstBlock.id);
+      // console.log(newArray);
+      this.renderHourlyBlock(newArray, this.informerForecast, newArray[0].day);
    }
 
    renderErrorBlock(val) {
@@ -522,7 +512,6 @@ class Informer {
       this.informer.querySelector('.error').insertAdjacentHTML('beforeend', text);
                                    
    }
-      // доработать ошибки
 
    init() {
       // this.getGeolocation();
@@ -534,4 +523,4 @@ class Informer {
 
 // const info = new Informer();
 // info.init();
-// new Informer('.informer').init();  
+new Informer('.informer').init();  

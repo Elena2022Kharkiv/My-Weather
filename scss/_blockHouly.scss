@@ -2,6 +2,7 @@
     &__content {
         display: grid;
         grid-template-rows: 1fr auto repeat(4, 1fr);
+        grid-template-columns: 1fr;
     }
     &__temperature,
     &__tempFeel,
@@ -15,34 +16,30 @@
 }
 .row {
     display: grid;
-    grid-template-columns: minmax(150px, 2fr) repeat(8, minmax(110px, 1fr));
-    padding: 10px; 
-    padding-left: 0;
+    grid-template-columns: minmax(180px, 2fr) repeat(8, 1fr);
+    padding: 10px 0; 
+}
+.title {
+    padding-left: 20px;
+    white-space: nowrap;
 }
 
 // $bp1: 1130px;
 @media (max-width: 1130px) {
     .hourlyWeather {        
-        &__content {
-            display: grid;
-            grid-template-rows: 1fr auto repeat(4, 1fr);
-        }
-        &__temperature,
-        &__tempFeel,
-        &__windDeg {
-            border-top: 1px solid $bgMainColor;
-        }
+        // &__content {
+        //     display: grid;
+        //     grid-template-rows: 1fr auto repeat(4, 1fr);
+        // }
         &__img {
             height: 50px;
-            margin: 10px 0;
         }
     }
     .row {
         display: grid;
-        grid-template-columns: minmax(130px, 2fr) repeat(8, minmax(90px, 1fr));
-        padding: 10px; 
-        padding-left: 0;        
-    }       
+        grid-template-columns: minmax(130px, 2fr) repeat(8, 1fr);
+        padding: 10px 0; 
+    } 
 }
 
 // $bp2: 960px;
@@ -51,11 +48,15 @@
         &__content {
             display: grid;
             grid-template-rows: auto;
-            grid-template-columns: 1fr auto repeat(4, 1fr);
+            grid-template-columns: repeat(6, 1fr);
         }
         &__img {
             height: 40px;
-            margin: 10px 70px 10px 0;
+        }
+        &__temperature .cell,
+        &__tempFeel .cell,
+        &__windDeg .cell {
+            justify-self: center;
         }
     }
     .row {
@@ -63,20 +64,29 @@
         grid-template-columns: auto;
         grid-template-rows: auto;
         padding: 0;
+        padding-left: 20px;
         border: none;
+        // align-self: center;
     }
-
     .cell {       
         align-self: center;
+    }
+    .title {
+        padding: 0;
+        white-space: nowrap;
+        // align-self: self-start;
     }
 }
 
 // $bp3: 750px;
 @media (max-width: 750px) {    
     .hourlyWeather {
+        &__titleBlock {
+            margin-bottom: 10px;
+        }
         &__img {
             height: 35px;
-            margin: 10px 50px 10px 0;
+            margin: 5px 0;
         }
     }  
     .row {
@@ -84,45 +94,45 @@
     }
 }
 
-// $bp4: 640px;
-@media (max-width: 640px) {    
+// $bp4: 650px;
+@media (max-width: 650px) {    
     .hourlyWeather {
-        &__content {
-            display: grid;
-            gap: 20px;
-        }
         &__img {
-            height: 35px;
-            margin: 20px 20px 0 0;
+            height: 30px;
         }
     }  
-    .title {
-        height: 40px;
+    .row {
+        padding-left: 10px;
     } 
 }
 
-// $bp5: 550px;
+$bp5: 550px;
 @media (max-width: 550px) {    
-    .hourlyWeather {
-        &__img {
-            height: 30px;
-            margin: 10px 10px 0 0;
-        }
-    }  
     .title {
         height: 40px;
-    } 
+        white-space: wrap;
+        line-height: 1.3;
+        text-align: center;
+    }
+    .day,
+    .forecast {
+        text-align: start;
+    }
 }
 
-// $bp6: 470px;
-@media (max-width: 470px) {    
+// $bp6: 480px;
+@media (max-width: 480px) { 
+    .row {
+        font-size: 13px;
+        padding-left: 5px;
+    }   
     .hourlyWeather {
-        &__img {
-            height: 30px;
-            margin-top: 10px;
+        &__time {
+            padding-left: 0;
         }
-    }  
-    .title {
-        height: 40px;
+        &__img {
+            height: 25px;
+            // margin: 5px 0;
+        }
     } 
 }
