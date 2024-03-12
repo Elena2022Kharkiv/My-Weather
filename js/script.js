@@ -12,16 +12,9 @@ class Informer {
    #data;
    #weatherData = [];
    #apiCity = '';
-   // #apiCoord = '';
-   // dataCoord;
 
    constructor(container) {
-      // this.api = 'http://api.openweathermap.org/data/2.5/weather?q=Poltava&units=metric&APPID=f87bc2c36adb84eb70ac5df2593571c6';
       this.apiPoltava = 'https://api.openweathermap.org/data/2.5/forecast?lat=49.59&lon=34.54&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6';
-
-      // Для температуры в градусах Цельсия и скорости ветра в метрах/сек после q=Poltava нужно добавить &units=metric (единицы=метрические)
-      // По умолчанию используется температура в градусах Кельвина и скорость ветра в метрах/сек
-      
       this.informer = document.querySelector(container);
       this.search = document.getElementById('search');
       this.tabMenu = document.querySelector('.tab-menu');
@@ -54,98 +47,16 @@ class Informer {
                return
             } else {     
                let data = response;
-               // console.log(data); 
+               console.log(data); 
                let latCoord = data.coord.lat;
                let lonCoord = data.coord.lon;
                this.#apiCity = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
-               // api города из поля поиска c координатами для почасового прогноза
                console.log(this.#apiCity); 
                this.getWeather(this.#apiCity);               
             }
          })
          .catch(() => this.renderErrorBlock('city')); 
    }
-
-   // getGeolocation() {
-   //    let apiCoord;
-   //    let latCoord;
-   //    let lonCoord;
-   //    let data;
-
-   //   // Чтобы использовать Geolocation API, необходимо проверить, 
-   //   // поддерживается ли он в текущем браузере:
-   //    if (navigator.geolocation) {
-   //       /* местоположение доступно */
-   //       // let apiCoord;
-   //       // let latCoord;
-   //       // let lonCoord;
-   //       // let data;
-
-   //       navigator.geolocation.getCurrentPosition(success, error);
-
-   //       function success(position) {
-   //          latCoord = position.coords.latitude;
-   //          lonCoord = position.coords.longitude; 
-   //          apiCoord = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
-   //          // this.#apiCoord = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
-   //          console.log(apiCoord);  
-   //          // console.log(this.#apiCoord);  
-   //          console.log(latCoord);
-   //          console.log(lonCoord);
-
-   //          fetch(apiCoord)                
-   //             .then(response => {
-   //                console.log(apiCoord);   
-   //                if(response.ok) {
-   //                   return response.json();
-   //                } else {
-   //                   throw 'Помилка HTTP: ' + response.status;
-   //                }             
-   //             })
-   //             .then((response) => {    
-   //                console.log(response);       
-   //                if(!response) {
-   //                   return
-   //                } else {   
-   //                   // this.#data = response;
-   //                   // console.log(this.#data);
-   //                   console.log(response); 
-   //                   data = response;
-   //                   console.log(data);
-   //                   // this.dataCoord = data;
-   //                   // this.dataCoord = response;
-   //                   // console.log(this.dataCoord);
-   //                   // this.getWeatherData();
-   //                   // console.log(this.#weatherData); 
-   //                   // this.renderWeatherInformer();
-   //                }
-   //             })
-   //             .catch(() => console.error('Помилка HTTP: ' + response.status))
-   //       }
-   //       function error(err) {
-   //          console.warn(`ERROR(${err.code}): ${err.message}`);
-   //          console.error('Невозможно получить ваше местоположение');
-   //          return
-   //       }
-   //       // console.log(latCoord);
-   //       // console.log(lonCoord);
-   //       apiCoord = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
-   //       this.#apiCoord = `https://api.openweathermap.org/data/2.5/forecast?lat=${latCoord}&lon=${lonCoord}&units=metric&appid=f87bc2c36adb84eb70ac5df2593571c6`;
-   //       // console.log(this.#apiCoord);    
-   //       // console.log(apiCoord);    
-   //       // console.log(data);
-   //       // this.getWeather(this.#apiCity); 
-
-   //    } else {
-   //       /* местоположение НЕ доступно */
-   //       console.error('Geolocation не поддерживается вашим браузером');
-   //       return
-   //    }
-   //    // console.log(apiCoord);    
-   //    console.log(data);
-   //    // console.log(latCoord);
-   //    // console.log(lonCoord);
-   // }
 
    getWeather(api) {
       fetch(api)  
@@ -211,13 +122,12 @@ class Informer {
          obj.wind = Math.round(elem.wind.speed);
          obj.windDeg = this.getWindDirection(elem.wind.deg);
          
-         // console.log(obj);
+         console.log(obj);
          this.#weatherData[index] = obj;
       })
    }
 
    getWeatherImg(weather, clouds) {
-      // соответствующая погоде картинка: 
       if(weather == 'Clear') return this.#imagesWeather[0].url;
       if(weather == 'Clouds' && clouds < 90) return this.#imagesWeather[1].url;
       if(weather == 'Clouds' && clouds > 90) return this.#imagesWeather[2].url;
@@ -232,27 +142,25 @@ class Informer {
    }
 
    getWindDirection(deg) {
-      if (deg < 25 || deg >= 335) return 'N'; // NORTH (N)
-      if (deg > 25 && deg < 65) return 'NE'; // северо-восток (NE)
+      if (deg < 25 || deg >= 335) return 'N'; 
+      if (deg > 25 && deg < 65) return 'NE'; 
       if (deg = 25) return 'NE'; 
-      if (deg > 65 && deg < 115) return 'E'; // EAST (E)
+      if (deg > 65 && deg < 115) return 'E'; 
       if (deg = 65) return 'E'; 
-      if (deg > 115 && deg < 155) return 'SE'; // юго-восток (SE)
+      if (deg > 115 && deg < 155) return 'SE'; 
       if (deg = 115) return 'SE'; 
-      if (deg > 155 && deg < 205) return 'S'; // SOUTH (S)
+      if (deg > 155 && deg < 205) return 'S';
       if (deg = 155) return 'S';
-      if (deg > 205 && deg < 245) return 'SW'; // юго-запад (SW)
+      if (deg > 205 && deg < 245) return 'SW'; 
       if (deg = 205) return 'SW'; 
-      if (deg > 245 && deg < 295) return 'W'; // WEST (W)
+      if (deg > 245 && deg < 295) return 'W'; 
       if (deg = 245) return 'W';
-      if (deg > 295 && deg < 335) return 'NW'; // северо-запад (NW)
+      if (deg > 295 && deg < 335) return 'NW'; 
       if (deg = 295) return 'NW';
    }
    get sunrise() {
       let timestamp = this.#data.city.sunrise * 1000;
-      // console.log(timestamp);
       let date = new Date(timestamp);
-      // console.log(date);
       let hours = date.getHours();
       let minutes = date.getMinutes().toString().padStart(2, '0'); 
       let sunrise = `${hours}:${minutes}`;
@@ -299,7 +207,6 @@ class Informer {
 
    renderCurWeatherBlock() {
       let weather = this.#weatherData[0];
-      // console.log(weather);
       let html = `<div class="informer__today">
                      <div class="curWeather">
                         <h4 class="curWeather__title">CURRENT WEATHER</h4>
@@ -386,7 +293,6 @@ class Informer {
    getNearbyPlacesWeather() {
       let nearlyPlaces = this.informer.querySelector('.nearlyPlaces');
       let cities = ['Kharkiv', 'Kremenchuk', 'Mirhorod', 'Krasnohrad'];
-      // let cities = ['Харків', 'Кременчук', 'Миргород', 'Красноград'];
 
       cities.forEach(elem => {
          let cityApi = `http://api.openweathermap.org/data/2.5/weather?q=${elem}&units=metric&APPID=f87bc2c36adb84eb70ac5df2593571c6`;
@@ -403,12 +309,12 @@ class Informer {
             if(!response) {
                return
             } else {
-               // console.log(response);
+               console.log(response);
                let cityTemp = response.main.temp; 
                let cityWeather = response.weather[0].main;
-               // console.log(cityWeather);
+               console.log(cityWeather);
                let cityClouds = response.clouds.all;
-               // console.log(cityClouds);
+               console.log(cityClouds);
                let html = `<div class="nearlyPlaces__place">
                               <p class="nearlyPlcses__name">${elem}</p>
                               <img class="nearlyPlaces__img" ${this.getWeatherImg(cityWeather, cityClouds)}>
@@ -455,7 +361,10 @@ class Informer {
             newArr = this.#weatherData.filter(elem => elem.date == day);
             day ++;
          }
-         if(newArr.length == 0 && i == 5) {return}
+         if(newArr.length == 0 && i == 5) {
+            this.weatherForecast.querySelector('.weatherForecast__block').classList.add('activeBlock');
+            return
+         }
          console.log(newArr);
 
          let html = `<div class="weatherForecast__block" id="${newArr[0].date}">
@@ -473,7 +382,7 @@ class Informer {
    getForecastHourly(event) {
       let targetBlock = event.target.closest('.weatherForecast__block');
       let newArr = this.#weatherData.filter(elem => elem.date == (targetBlock.id));
-      // console.log(newArr);
+      console.log(newArr);
 
       let forecastBlocks = this.weatherForecast.querySelectorAll('.weatherForecast__block');
       forecastBlocks.forEach(elem => {
@@ -490,7 +399,7 @@ class Informer {
    renderForecastHourly() {
       let firstBlock = this.weatherForecast.querySelector('.weatherForecast__block');
       let newArray = this.#weatherData.filter(elem => elem.date == firstBlock.id);
-      // console.log(newArray);
+      console.log(newArray);
       this.renderHourlyBlock(newArray, this.informerForecast, newArray[0].day);
    }
 
@@ -514,13 +423,10 @@ class Informer {
    }
 
    init() {
-      // this.getGeolocation();
       this.getWeather(this.apiPoltava); 
       this.tabMenu.addEventListener('click', this.getWeatherForecast.bind(this));
       this.search.addEventListener('change', this.getApiCity.bind(this));
    }
 }
 
-// const info = new Informer();
-// info.init();
 new Informer('.informer').init();  
